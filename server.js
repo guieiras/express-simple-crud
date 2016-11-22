@@ -1,11 +1,15 @@
-// Requerindo o express dos node_modules
+// Requerindo o express e o body-parser dos node_modules
 const express = require('express');
+const bodyParser = require('body-parser');
 
 // Requerindo o arquivo principal dos models
 const models = require('./models/index.js')
 
 // Criação do app a partir de uma instância do express
 const app = express();
+
+// Usando o bodyParser de JSON na aplicação
+app.use(bodyParser.json());
 
 // Chamar a função para aguardar que o banco de dados seja sincronizado com os models
 // Aqui as tabelas serão criadas e as colunas alteradas seguindo os models
