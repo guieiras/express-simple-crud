@@ -21,3 +21,17 @@ models.sequelize.sync().then(() => {
   // Apresentar o erro retornado
   console.log(error);
 });
+
+// Criação da rota GET /students (Index)
+app.get('/students', (request, response) => {
+  // Obter todos os Student e quando acabar:
+  models.Student.all().then((students) => {
+    // Em caso de sucesso:
+    // Responde com os students
+    response.send(students)
+  }).catch((error) => {
+    // Em caso de erro:
+    // Responde com o status 500 e apresenta o erro
+    response.status(500).send(error)
+  });
+});
