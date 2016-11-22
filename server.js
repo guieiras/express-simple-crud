@@ -85,3 +85,36 @@ app.post('/students', (request, response) => {
     response.status(422).send(error)
   });
 });
+
+// Criação da rota PUT /students/:id (Update)
+app.put('/students/:id', (request, response) => {
+  // Obter o body da requisição(já parseado)
+  let params = request.body;
+  // Obter o id pelo parâmetro da rota
+  let id = request.params['id'];
+
+  // Definir o objeto com os atributos da entidade
+  let newAttributes = {
+    name: params['name'],
+    course: params['course']
+  };
+
+  let query = { where: { id: id } };
+
+  // Atualizar os Student com os novos atributos e com determinada query
+  // E quando acabar, essa função vai retornar o número de objetos atualizados:
+  models.Student.update(newAttributes, query).then((count) => {
+    if (count > 0) {
+      // Responde com o status 200
+      response.sendStatus(200);
+    }
+    else {
+      // Responde com o status 404
+      response.sendStatus(404);
+    }
+  }).catch((error) => {
+    // Em caso de erro:
+    // Responde com o status 422 e apresenta o erro
+    response.status(422).send(error);
+  });
+});
