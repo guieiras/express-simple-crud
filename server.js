@@ -118,3 +118,29 @@ app.put('/students/:id', (request, response) => {
     response.status(422).send(error);
   });
 });
+
+// Criação da rota DELETE /students/:id (Destroy)
+app.delete('/students/:id', (request, response) => {
+  // Obter o id pelo parâmetro da rota
+  let id = request.params['id'];
+
+  // Montar a query com o id
+  let query = { where: { id: id } };
+
+  // Deletar os Student seguindo determinada query
+  // E quando acabar, essa função vai retornar o número de objetos deletados:
+  models.Student.destroy(query).then((count) => {
+    if (count > 0) {
+      // Responde com o status 204
+      response.sendStatus(204);
+    }
+    else {
+      // Responde com o status 404
+      response.sendStatus(404);
+    }
+  }).catch((error) => {
+    // Em caso de erro:
+    // Responde com o status 422 e apresenta o erro
+    response.status(422).send(error);
+  });
+});
