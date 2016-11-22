@@ -40,6 +40,29 @@ app.get('/students', (request, response) => {
   });
 });
 
+// Criação da rota GET /students/:id (Show)
+app.get('/students/:id', (request, response) => {
+  // Definir id através do parâmetro da reqisição
+  let id = request.params['id']
+
+  // Obter o student pelo id e quando acabar:
+  models.Student.findById(id).then((student) => {
+    // Em caso de sucesso:
+    if(student) {
+      // Responde com o student encontrado
+      response.send(student);
+    }
+    else {
+      // Responde com o status 404
+      response.sendStatus(404);
+    }
+  }).catch((error) => {
+    // Em caso de erro:
+    // Responde com o status 500
+    response.status(500).send(error);
+  });
+});
+
 // Criação da rota POST /students (Create)
 app.post('/students', (request, response) => {
   // Obter o body da requisição(já parseado)
