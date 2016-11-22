@@ -39,3 +39,26 @@ app.get('/students', (request, response) => {
     response.status(500).send(error)
   });
 });
+
+// Criação da rota POST /students (Create)
+app.post('/students', (request, response) => {
+  // Obter o body da requisição(já parseado)
+  let params = request.body;
+
+  // Definir o objeto para ser criado
+  let newStudent = {
+    name: params['name'],
+    course: params['course']
+  };
+
+  // Criar um novo Student e quando acabar:
+  models.Student.create(newStudent).then((student) => {
+    // Em caso de sucesso:
+    // Responde com o Student criado
+    response.send(student)
+  }).catch((error) => {
+    // Em caso de erro:
+    // Responde com o status 422 e apresenta o erro
+    response.status(422).send(error)
+  });
+});
